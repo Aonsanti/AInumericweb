@@ -1,0 +1,35 @@
+.Headercontainer{
+    align-items: center;
+    display: flex;
+}
+.header-placeholder {
+    flex: 1;
+}
+.title{
+    flex-grow: 0.75;
+    text-align: center;
+}
+.btn{
+    flex-shrink: 0;
+}
+select{
+    margin-top:20px;
+    margin-right:20px;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 5px;
+    width: 250px;
+}
+select:hover{
+    transform: scale(1.05);
+    background-color: white;
+    color: black;
+    border-radius: 20px;
+}
+select:focus{
+    outline: none;
+}
+option{
+    cursor: pointer;
+}
