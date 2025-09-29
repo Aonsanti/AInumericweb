@@ -25,10 +25,9 @@ services:
       - NODE_ENV=development
       - DB_HOST=db
       - DB_USER=root
-      - DB_PASSWORD=
+      - DB_PASSWORD=root
       - DB_NAME=numericalmethod
       - DB_PORT=3306
-
   db:
     image: mysql:8.0
     ports:
@@ -38,6 +37,7 @@ services:
       MYSQL_DATABASE: numericalmethod
     volumes:
       - db-data:/var/lib/mysql
+
 
 volumes:
   db-data:
