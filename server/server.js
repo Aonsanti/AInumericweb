@@ -8,11 +8,11 @@ app.use(express.json());
 
 
 const db = mysql.createConnection({
-    host: '127.0.0.1',
-    user: 'root',
-    password: '',
-    database:'numericalmethod',
-    port:3307
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '',
+    database: process.env.DB_NAME || 'numericalmethod',
+    port: process.env.DB_PORT || 3306
 });
 
 db.connect((err)=>{
@@ -30,6 +30,7 @@ app.get('/',(req , res) => {
 app.get('/bisection' , (req , res)=>{
     const sql = "SELECT * FROM bisection";
     db.query(sql,(err , data) =>{
+        console.log(err, data);
         if(err) return res.json(err);
         return res.json(data);
     })

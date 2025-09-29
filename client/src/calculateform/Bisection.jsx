@@ -8,7 +8,7 @@ export default function Bisection() {
   const [xr, setXr] = useState("");
   const [tolerance, setTolerance] = useState("");
   const [result, setResult] = useState([]);
-  const [saveStatus, setSaveStatus] = useState(""); // สถานะการบันทึก
+  const [saveStatus, setSaveStatus] = useState("");
 
   const calculateBisection = () => {
     // ตรวจสอบ input

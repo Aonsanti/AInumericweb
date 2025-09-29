@@ -25,18 +25,21 @@ export default function History() {
                 ];
 
                 const fetchPromises = endpoints.map(endpoint =>
-                    fetch(`http://localhost:8080/${endpoint}`).then(res => {
+                    fetch(`${import.meta.env.VITE_API_URL}/${endpoint}`).then(res => {
                         if (!res.ok) throw new Error(`Failed to fetch ${endpoint}`);
                         return res.json();
                     })
                 );
 
                 const results = await Promise.all(fetchPromises);
+
                 const newData = {};
                 endpoints.forEach((endpoint, index) => {
-                    newData[endpoint] = results[index];
+                    newData[endpoint] = Array.isArray(results[index]) ? results[index] : [];
                 });
+
                 setData(prevData => ({ ...prevData, ...newData }));
+
                 setLoading(false);
             } catch (err) {
                 console.error('Fetch error:', err);
@@ -66,8 +69,8 @@ export default function History() {
             day: '2-digit',
             hour: '2-digit',
             minute: '2-digit',
-            hour12: false // ใช้รูปแบบ 24 ชั่วโมง
-        }).replace(/,/, ''); // ตัดเครื่องหมาย , ออกถ้ามี
+            hour12: false
+        }).replace(/,/, ''); 
     };
 
     return (
@@ -76,9 +79,7 @@ export default function History() {
             {Object.entries(data).map(([tableName, tableData]) => (
                 <div key={tableName} style={{ marginBottom: '40px' }}>
                     <h2>{tableName.charAt(0).toUpperCase() + tableName.slice(1).replace('_', ' ')}</h2>
-                    {tableData.length === 0 ? (
-                        <div>ไม่มีข้อมูลใน {tableName}</div>
-                    ) : (
+                    {tableData.length === 0 ? (<div>ไม่มีข้อมูลใน {tableName}</div>) : (
                         <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
                             <thead>
                                 <tr style={{ backgroundColor: '#f2f2f2' }}>
