@@ -77,3 +77,5 @@ EXPOSE 5173
 CMD ["npm", "run", "dev"]
 
 
+server\node_modules
+client\node_modules

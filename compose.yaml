@@ -1,0 +1,56 @@
+services:
+  client:
+    build:
+      context: .
+      dockerfile: client.Dockerfile
+    ports:
+      - 8080:80
+    depends_on:
+      - server
+    environment:
+      - VITE_API_URL=http://localhost:8080
+    networks:
+      - my_network
+
+  server:
+    build:
+      context: .
+      dockerfile: server.Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=root  # Make sure this matches MYSQL_ROOT_PASSWORD
+      - DB_NAME=numericalmethod
+      - DB_PORT=3306
+    networks:
+      - my_network
+
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: numericalmethod
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - my_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db-data:
+
+networks:
+  my_network:
+    driver: bridge
